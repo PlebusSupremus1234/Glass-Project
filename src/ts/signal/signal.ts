@@ -67,14 +67,10 @@ export class Signal {
     }
 
     draw(ctx: CanvasRenderingContext2D) {
-        if (this.finished) return;
-
         if (!this.sleep) this.order[this.o].draw(ctx);
     }
 
     update() {
-        if (this.finished) return;
-
         if (!this.sleep) this.order[this.o].update();
         else {
             this.sleepC++;
@@ -85,6 +81,7 @@ export class Signal {
             this.sleep = true;
             this.sleepC = 0;
             this.o++;
+            
             if (this.o >= this.order.length) this.finished = true;
         }
     }

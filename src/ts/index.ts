@@ -20,13 +20,25 @@ function draw() {
     
     scene.draw(ctx);
 
+    if (!scene.infrastructure.signalB && alertI === 4) {
+        alertF = false;
+        alertI++;
+    }
+
     if (!alertF) {
         alertC++;
+
         if (alertC === alerts[alertI].t) {
             alert(alerts[alertI].m);
+            
+            if (alertI === 3) {
+                scene.infrastructure.signalB = true;
+                alertF = true;
+            }
 
             alertC = 0;
-            alertI++;
+            alertI++;    
+
             if (alertI >= alerts.length) alertF = true;
         }    
     }

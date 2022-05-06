@@ -29,14 +29,10 @@ var Signal = /** @class */ (function () {
         ];
     }
     Signal.prototype.draw = function (ctx) {
-        if (this.finished)
-            return;
         if (!this.sleep)
             this.order[this.o].draw(ctx);
     };
     Signal.prototype.update = function () {
-        if (this.finished)
-            return;
         if (!this.sleep)
             this.order[this.o].update();
         else {

@@ -2,9 +2,10 @@ import { Cable } from "./cable.js";
 import { LandingStation } from "./landingStation.js";
 import { CellTower } from "./cellTower.js";
 import { Phone } from "./phone.js";
+import { Signal } from "../signal/signal.js";
 var Infrastructure = /** @class */ (function () {
     function Infrastructure(l1, l2) {
-        this.signal = null;
+        this.signalB = false;
         this.cable = new Cable(l1.x + l1.rx, l1.y, l2.x - l2.rx, l2.y, 7);
         this.s1 = new LandingStation(l1.x + l1.rx, l1.y, true);
         this.s2 = new LandingStation(l2.x - l2.rx, l2.y, false);
@@ -18,15 +19,7 @@ var Infrastructure = /** @class */ (function () {
         this.miniCable2 = new Cable(lastRect2[0], lastRect2[1] + lastRect2[3], this.s2.pos.x + this.s2.width, this.s2.pos.y + this.s2.height / 2, 3);
         this.p1 = new Phone(w / 15, 7 * h / 10, w / 15, h / 4);
         this.p2 = new Phone(13 * w / 15, 7 * h / 10, w / 15, h / 4);
-        // this.signal = new Signal(
-        //     this.p1,
-        //     this.t1,
-        //     this.miniCable1,
-        //     this.cable,
-        //     this.p2,
-        //     this.t2,
-        //     this.miniCable2,
-        // );
+        this.signal = new Signal(this.p1, this.t1, this.miniCable1, this.cable, this.p2, this.t2, this.miniCable2);
     }
     Infrastructure.prototype.draw = function (ctx) {
         ctx.globalCompositeOperation = 'destination-over';
@@ -40,10 +33,12 @@ var Infrastructure = /** @class */ (function () {
         this.t2.draw(ctx);
         this.p1.draw(ctx);
         this.p2.draw(ctx);
-        if (this.signal) {
+        if (this.signalB) {
             this.signal.update();
             this.signal.draw(ctx);
         }
+        if (this.signal.finished)
+            this.signalB = false;
     };
     return Infrastructure;
 }());
